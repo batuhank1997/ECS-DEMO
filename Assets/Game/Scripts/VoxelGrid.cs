@@ -13,7 +13,7 @@ namespace Game.Scripts
             _voxels = new bool[gridData.Resolution * gridData.Resolution * gridData.Resolution];
         }
 
-        public void CreateMap(int resolution)
+        public void CreateGrid(int resolution)
         {
             var parentObj = Object.Instantiate(new GameObject("VoxelGrid"));
 
@@ -36,7 +36,7 @@ namespace Game.Scripts
         private void CreateVoxel(int x, int y, int z, Transform parent)
         {
             var voxelObject = Object.Instantiate(_voxelPrefab, parent);
-            voxelObject.transform.localPosition = new Vector3(x, y, z);
+            voxelObject.transform.localPosition = new Vector3(x + 0.5f, y + 0.5f, z + 0.5f);
             voxelObject.transform.localScale = Vector3.one * 0.95f;
         }
     }
