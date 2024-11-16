@@ -8,12 +8,12 @@ namespace Game.Scripts.ECS.Core
         public readonly EntityId Id;
         public readonly Archetype Archetype;
 
-        private readonly IReadOnlyList<IComponent> _components;
+        public readonly IReadOnlyList<IComponent> Components;
 
         public Entity(EntityId id, params IComponent[] baseComponents)
         {
             Id = id;
-            _components = new List<IComponent>(baseComponents);
+            Components = new List<IComponent>(baseComponents);
             Archetype = new Archetype(SetArchetype());
         }
         
@@ -21,7 +21,7 @@ namespace Game.Scripts.ECS.Core
         {
             var archetypeValue = 0;
             
-            foreach (var component in _components)
+            foreach (var component in Components)
                 archetypeValue += (int)component.Type;
             
             return archetypeValue;
@@ -29,7 +29,7 @@ namespace Game.Scripts.ECS.Core
         
         public T GetComponent<T>() where T : IComponent
         {
-            foreach (var component in _components)
+            foreach (var component in Components)
                 if (component is T tComponent)
                     return tComponent;
 

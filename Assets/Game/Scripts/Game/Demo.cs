@@ -15,7 +15,9 @@ namespace Game.Scripts.Game
             
             var entity = ecsManager.CreateEntity(posComponent);
             
-            Debug.Log($"Position: {entity.GetComponent<PositionComponent>().Value}");
+            ecsManager.TryGetChunkByArchetype(entity.Archetype, out var chunk);
+
+            Debug.Log( chunk.GetEntityComponentsByIndex(entity.Id.Value));
         }
     }
 }
