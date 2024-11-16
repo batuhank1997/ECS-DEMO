@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &200534327
+--- !u!1 &26106329
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,47 +131,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 200534329}
-  - component: {fileID: 200534330}
+  - component: {fileID: 26106330}
+  - component: {fileID: 26106331}
   m_Layer: 0
-  m_Name: GPUInstancing
+  m_Name: Demo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &200534329
+--- !u!4 &26106330
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200534327}
+  m_GameObject: {fileID: 26106329}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 83.2641, y: -7.647766, z: 82.938385}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &200534330
+--- !u!114 &26106331
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200534327}
+  m_GameObject: {fileID: 26106329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03f99beeff3b5994fa9018e5e95d2730, type: 3}
+  m_Script: {fileID: 11500000, guid: a0881d52c41c48589182e0ab715e396b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _size: 100
-  _material: {fileID: 2100000, guid: 7e4a276df3733eb4ab28019478756dc9, type: 2}
-  _mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  _gameObject: {fileID: 6304298811037038270, guid: 1b9958b0edd359a40b5247342bb93be1,
-    type: 3}
 --- !u!1 &1179272108
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,4 +437,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1179272113}
   - {fileID: 2059198574}
-  - {fileID: 200534329}
+  - {fileID: 26106330}
