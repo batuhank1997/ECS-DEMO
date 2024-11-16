@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Game.Scripts.ECS.Core.Managers
 {
@@ -7,8 +6,6 @@ namespace Game.Scripts.ECS.Core.Managers
     {
         private int _nextEntityId = 1;
         private readonly Dictionary<Archetype, Chunk> _chunksByArchetype = new ();
-        
-        // private Dictionary<EntityId, (EntityArchetype archetype, int index)> _entityLocations = new ();
         
         public Entity CreateEntity(params IComponent[] componentTypes)
         {
@@ -37,8 +34,9 @@ namespace Game.Scripts.ECS.Core.Managers
     
     public class Chunk
     {
-        public readonly List<Entity> Entities;
         public readonly Archetype Archetype;
+        
+        public readonly List<Entity> Entities;
         
         public Chunk(Archetype archetype, int size = 16)
         {
