@@ -11,13 +11,13 @@ namespace Game.Scripts.Game
         {
             var ecsManager = new ECSManager();
 
-            var posComponent = new PositionComponent(new float3(1, 2, 3));
-            
-            var entity = ecsManager.CreateEntity(posComponent);
-            
-            ecsManager.TryGetChunkByArchetype(entity.Archetype, out var chunk);
 
-            Debug.Log( chunk.GetEntityComponentsByIndex(entity.Id.Value));
+            for (var i = 0; i < 1024; i++)
+            {
+                var posComponent = new PositionComponent(new float3(i, 0, 0));
+            
+                var entity = ecsManager.CreateEntity(posComponent);
+            }
         }
     }
 }

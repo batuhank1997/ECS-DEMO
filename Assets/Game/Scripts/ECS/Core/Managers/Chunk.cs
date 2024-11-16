@@ -1,39 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Scripts.ECS.Utility;
+using UnityEditor.Rendering;
 
 namespace Game.Scripts.ECS.Core.Managers
 {
-    public class Chunk
+    public readonly struct Chunk
     {
         public readonly Archetype Archetype;
-        
         public readonly Dictionary<Type, Array> Components;
-
         private readonly int _size;
         
         public Chunk(Archetype archetype, int size = 16)
         {
             Archetype = archetype;
             _size = size;
-            
-            Components = new Dictionary<Type, Array>(CountBits(archetype.Value));
+            Components = new Dictionary<Type, Array>(ChunkUtility.CountBits(archetype.Value));
         }
 
-        private static int CountBits(int number)
+        public bool TryAddEntity(Entity entity)
         {
-            var count = 0;
-            
-            while (number != 0)
-            {
-                count += number & 1;
-                number >>= 1;
-            }
-            
-            return count;
-        }
+            if (!Components.TryGetValue(entity.Components[0].GetType(), out var arr))
+                return false;
 
-        public void AddEntity(Entity entity)
-        {
             foreach (var component in entity.Components)
             {
                 var componentType = component.GetType();
@@ -43,6 +32,8 @@ namespace Game.Scripts.ECS.Core.Managers
                 
                 Components[componentType].SetValue(component, entity.Id.Value);
             }
+            
+            return true;
         }
         
         public List<IComponent> GetEntityComponentsByIndex(int entityIndex)

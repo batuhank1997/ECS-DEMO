@@ -5,37 +5,44 @@ namespace Game.Scripts.ECS.Core.Managers
     public class ECSManager
     {
         private int _nextEntityId = 0;
-        private readonly Dictionary<Archetype, Chunk> _chunksByArchetype = new ();
+        private readonly Dictionary<Archetype, List<Chunk>> _chunkListsByArchetype = new ();
         
         public Entity CreateEntity(params IComponent[] componentTypes)
         {
             var entity = new Entity(new EntityId(_nextEntityId++), componentTypes);
-            var entity2 = new Entity(new EntityId(_nextEntityId++), componentTypes);
-            
             AddToBelongingChunk(entity);
-            AddToBelongingChunk(entity2);
             
             return entity;
         }
 
         private void AddToBelongingChunk(Entity entity)
         {
-            if (_chunksByArchetype.TryGetValue(entity.Archetype, out var chunk))
-                chunk.AddEntity(entity);
+            if (_chunkListsByArchetype.TryGetValue(entity.Archetype, out var chunkList))
+            {
+                var lastChunk = chunkList[^1];
+                
+                if (!lastChunk.TryAddEntity(entity))
+                    CreateNewChunk(entity.Archetype).TryAddEntity(entity);    
+            }
             else
-                CreateNewChunk(entity.Archetype).AddEntity(entity);
+                CreateNewChunk(entity.Archetype).TryAddEntity(entity);
         }
 
         private Chunk CreateNewChunk(Archetype archetype)
         {
             var newChunk = new Chunk(archetype);
-            _chunksByArchetype.Add(newChunk.Archetype, newChunk);
+
+            if (_chunkListsByArchetype.TryGetValue(archetype, out var chunkList))
+                chunkList.Add(newChunk);
+            else
+                _chunkListsByArchetype.Add(archetype, new List<Chunk> { newChunk });
+            
             return newChunk;
         }
 
-        public bool TryGetChunkByArchetype(Archetype entityArchetype, out Chunk chunk)
+        public bool TryGetChunkListByArchetype(Archetype entityArchetype, out List<Chunk> chunkList)
         {
-            return _chunksByArchetype.TryGetValue(entityArchetype, out chunk);
+            return _chunkListsByArchetype.TryGetValue(entityArchetype, out chunkList);
         }
     }
 }
