@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Game.Scripts.ECS.Chunks;
 using Game.Scripts.ECS.Component;
-using Game.Scripts.ECS.Entity;
+using Game.Scripts.ECS.Entities;
 
 namespace Game.Scripts.ECS.Core.Managers
 {
@@ -10,12 +10,14 @@ namespace Game.Scripts.ECS.Core.Managers
     public class ECSManager
     {
         private readonly Dictionary<Archetype, List<Chunk>> _chunkListsByArchetype = new ();
-        private readonly ConcurrentDictionary<EntityId, Entity.Entity> _entities = new ();
+        private readonly ConcurrentDictionary<EntityId, Entity> _entities = new ();
+        
+        private readonly List<Chunk> _emptyChunkList = new ();
 
         //TODO :::: MOVE TO ENTITY FACTORY
-        public Entity.Entity CreateEntity(params IComponent[] componentTypes)
+        public Entity CreateEntity(params IComponent[] componentTypes)
         {
-            var entity = new Entity.Entity(componentTypes);
+            var entity = new Entity(componentTypes);
             AddToBelongingChunk(entity);
             _entities.TryAdd(entity.Data.Id, entity);
             
@@ -24,15 +26,15 @@ namespace Game.Scripts.ECS.Core.Managers
         
         public List<Chunk> GetChunksByArchetype(Archetype archetype)
         {
-            return _chunkListsByArchetype[archetype];
+            return _chunkListsByArchetype.GetValueOrDefault(archetype, _emptyChunkList);
         }
 
-        public Entity.Entity GetEntityById(EntityId id)
+        public Entity GetEntityById(EntityId id)
         {
             return _entities.GetValueOrDefault(id);
         }
 
-        private void AddToBelongingChunk(Entity.Entity entity)
+        private void AddToBelongingChunk(Entity entity)
         {
             if (_chunkListsByArchetype.TryGetValue(entity.Data.Archetype, out var chunkList))
             {

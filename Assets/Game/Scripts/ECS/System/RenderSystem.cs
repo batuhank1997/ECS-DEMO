@@ -15,13 +15,18 @@ namespace Game.Scripts.ECS.System
         
         private void Execute(RenderComponent[] renderComponents, float deltaTime)
         {
+            var matrices = new Matrix4x4[renderComponents.Length];
+            
+            for (var i = 0; i < renderComponents.Length; i++)
+                matrices[i] = renderComponents[i].RenderData.Matrice4x4;
+            
             foreach (var positionComponent in renderComponents)
             {
                 Graphics.DrawMeshInstanced(
                     positionComponent.RenderData.Mesh,
                     0,
                     positionComponent.RenderData.Material,
-                    positionComponent.RenderData.Matrices);
+                    matrices);
             }
         }
     }

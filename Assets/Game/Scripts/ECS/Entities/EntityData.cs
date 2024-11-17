@@ -2,7 +2,7 @@
 using Game.Scripts.ECS.Chunks;
 using Game.Scripts.ECS.Component;
 
-namespace Game.Scripts.ECS.Entity
+namespace Game.Scripts.ECS.Entities
 {
     public readonly struct EntityData
     {

@@ -11,11 +11,13 @@ namespace Game.Scripts.Game
     {
         private ECSManager _ecsManager;
         private MoveSystem _moveSystem;
+        private RenderSystem _renderSystem;
         
         private void Start()
         {
             _ecsManager = new ECSManager();
             _moveSystem = new MoveSystem();
+            _renderSystem = new RenderSystem();
 
             for (var i = 0; i < 1024; i++)
             {
@@ -32,6 +34,7 @@ namespace Game.Scripts.Game
         private void UpdateSystems(float deltaTime)
         {
             _moveSystem.Update(_ecsManager.GetChunksByArchetype(Archetype.Move), deltaTime);
+            _renderSystem.Update(_ecsManager.GetChunksByArchetype(Archetype.Render), deltaTime);
         }
     }
 }

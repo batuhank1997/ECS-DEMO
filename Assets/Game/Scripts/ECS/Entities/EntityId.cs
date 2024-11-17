@@ -1,4 +1,4 @@
-﻿namespace Game.Scripts.ECS.Entity
+﻿namespace Game.Scripts.ECS.Entities
 {
     public readonly struct EntityId
     {

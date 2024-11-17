@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Scripts.ECS.Component;
+using Game.Scripts.ECS.Entities;
 using Game.Scripts.ECS.Utility;
 
 namespace Game.Scripts.ECS.Chunks
@@ -26,7 +27,7 @@ namespace Game.Scripts.ECS.Chunks
             }
         }
 
-        public bool TryAddEntity(Entity.Entity entity)
+        public bool TryAddEntity(Entity entity)
         {
             var arr = Data.Components[entity.Data.Components[0].GetType()];
             var lastElement = arr.GetValue(arr.Length - 1);
