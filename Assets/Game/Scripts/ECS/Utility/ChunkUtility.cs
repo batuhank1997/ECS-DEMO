@@ -13,6 +13,7 @@ namespace Game.Scripts.ECS.Utility
             { ComponentType.Position, typeof(PositionComponent) },
             { ComponentType.Rotation, typeof(RotationComponent) },
             { ComponentType.Scale, typeof(ScaleComponent) },
+            { ComponentType.Render, typeof(RenderComponent) },
         };
 
         public static int CountBits(int number)
@@ -33,7 +34,7 @@ namespace Game.Scripts.ECS.Utility
             if (_componentTypeToType.TryGetValue(componentType, out type))
                 return true;
             
-            return false;
+            throw new NullReferenceException($"Component type {componentType} not found in dictionary.");
         }
     }
 }

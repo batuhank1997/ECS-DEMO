@@ -18,7 +18,7 @@ namespace Game.Scripts.ECS.System
             var matrices = new Matrix4x4[renderComponents.Length];
             
             for (var i = 0; i < renderComponents.Length; i++)
-                matrices[i] = renderComponents[i].RenderData.Matrice4x4;
+                matrices[i] = renderComponents[i].RenderData.Matrix4x4;
             
             foreach (var positionComponent in renderComponents)
             {

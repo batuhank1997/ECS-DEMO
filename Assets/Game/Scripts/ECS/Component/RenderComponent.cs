@@ -19,6 +19,13 @@ namespace Game.Scripts.ECS.Component
     {
         public readonly Mesh Mesh;
         public readonly Material Material;
-        public readonly Matrix4x4 Matrice4x4;
+        public readonly Matrix4x4 Matrix4x4;
+
+        public RenderData(Mesh mesh, Material material, Matrix4x4 matrix4X4)
+        {
+            Mesh = mesh;
+            Material = material;
+            Matrix4x4 = matrix4X4;
+        }
     }
 }
