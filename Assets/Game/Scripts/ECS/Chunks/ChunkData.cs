@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Game.Scripts.ECS.Core
+namespace Game.Scripts.ECS.Chunks
 {
     public readonly struct ChunkData
     {

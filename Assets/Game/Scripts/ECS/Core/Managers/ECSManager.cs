@@ -1,5 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Game.Scripts.ECS.Chunks;
+using Game.Scripts.ECS.Component;
+using Game.Scripts.ECS.Entity;
 
 namespace Game.Scripts.ECS.Core.Managers
 {
@@ -7,12 +10,12 @@ namespace Game.Scripts.ECS.Core.Managers
     public class ECSManager
     {
         private readonly Dictionary<Archetype, List<Chunk>> _chunkListsByArchetype = new ();
-        private readonly ConcurrentDictionary<EntityId, Entity> _entities = new ();
+        private readonly ConcurrentDictionary<EntityId, Entity.Entity> _entities = new ();
 
         //TODO :::: MOVE TO ENTITY FACTORY
-        public Entity CreateEntity(params IComponent[] componentTypes)
+        public Entity.Entity CreateEntity(params IComponent[] componentTypes)
         {
-            var entity = new Entity(componentTypes);
+            var entity = new Entity.Entity(componentTypes);
             AddToBelongingChunk(entity);
             _entities.TryAdd(entity.Data.Id, entity);
             
@@ -24,12 +27,12 @@ namespace Game.Scripts.ECS.Core.Managers
             return _chunkListsByArchetype[archetype];
         }
 
-        public Entity GetEntityById(EntityId id)
+        public Entity.Entity GetEntityById(EntityId id)
         {
             return _entities.GetValueOrDefault(id);
         }
 
-        private void AddToBelongingChunk(Entity entity)
+        private void AddToBelongingChunk(Entity.Entity entity)
         {
             if (_chunkListsByArchetype.TryGetValue(entity.Data.Archetype, out var chunkList))
             {

@@ -1,6 +1,7 @@
 ﻿using System;
+using Game.Scripts.ECS.Component;
 
-namespace Game.Scripts.ECS.Core
+namespace Game.Scripts.ECS.Chunks
 {
     public readonly struct Archetype : IEquatable<Archetype>
     {

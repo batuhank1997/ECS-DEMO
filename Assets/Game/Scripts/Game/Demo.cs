@@ -1,4 +1,5 @@
-﻿using Game.Scripts.ECS.Core;
+﻿using Game.Scripts.ECS.Chunks;
+using Game.Scripts.ECS.Component;
 using Game.Scripts.ECS.Core.Managers;
 using Game.Scripts.ECS.System;
 using Unity.Mathematics;
@@ -14,13 +15,12 @@ namespace Game.Scripts.Game
         private void Start()
         {
             _ecsManager = new ECSManager();
-            
             _moveSystem = new MoveSystem();
 
             for (var i = 0; i < 1024; i++)
             {
                 var posComponent = new PositionComponent(new float3(i, 0, 0));
-                var entity = _ecsManager.CreateEntity(posComponent);
+                _ecsManager.CreateEntity(posComponent);
             }
         }
 

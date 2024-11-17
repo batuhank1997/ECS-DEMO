@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Scripts.ECS.Core;
+using Game.Scripts.ECS.Component;
 
 namespace Game.Scripts.ECS.Utility
 {
     public static class ChunkUtility
     {
-        private static IReadOnlyDictionary<ComponentType, Type> _componentTypeToType = new Dictionary<ComponentType, Type>()
+        private static readonly IReadOnlyDictionary<ComponentType, Type> _componentTypeToType = new Dictionary<ComponentType, Type>()
         {
             { ComponentType.Invalid, null },
             { ComponentType.Position, typeof(PositionComponent) },

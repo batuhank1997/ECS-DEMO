@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.Scripts.ECS.Core;
+using Game.Scripts.ECS.Component;
 
 namespace Game.Scripts.ECS.Utility
 {

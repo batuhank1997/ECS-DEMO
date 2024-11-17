@@ -1,7 +1,8 @@
 ﻿using System.Numerics;
+using Game.Scripts.ECS.Core;
 using Unity.Mathematics;
 
-namespace Game.Scripts.ECS.Core
+namespace Game.Scripts.ECS.Component
 {
     public class PositionComponent : IComponent
     {

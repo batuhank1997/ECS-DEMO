@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.Scripts.ECS.Core;
+﻿using System.Collections.Generic;
+using Game.Scripts.ECS.Chunks;
+using Game.Scripts.ECS.Component;
 using Unity.Mathematics;
 
 namespace Game.Scripts.ECS.System
@@ -15,8 +15,8 @@ namespace Game.Scripts.ECS.System
         
         private void Execute(PositionComponent[] positionComponents, float deltaTime)
         {
-            for (var i = 0; i < positionComponents.Length; i++)
-                positionComponents[i].Value += new float3(1, 0, 0) * deltaTime;
+            foreach (var positionComponent in positionComponents)
+                positionComponent.Value += new float3(1, 0, 0) * deltaTime;
         }
     }
 }

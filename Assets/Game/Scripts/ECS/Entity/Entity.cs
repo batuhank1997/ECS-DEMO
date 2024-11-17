@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Game.Scripts.ECS.Chunks;
+using Game.Scripts.ECS.Component;
 
-namespace Game.Scripts.ECS.Core
+namespace Game.Scripts.ECS.Entity
 {
     public class Entity
     {
