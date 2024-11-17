@@ -1,4 +1,6 @@
-﻿namespace Game.Scripts.ECS.Component
+﻿using Game.Scripts.ECS.Component.Base;
+
+namespace Game.Scripts.ECS.Component
 {
     public interface IComponent
     {

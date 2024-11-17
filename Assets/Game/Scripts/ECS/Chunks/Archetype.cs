@@ -1,5 +1,5 @@
 ﻿using System;
-using Game.Scripts.ECS.Component;
+using Game.Scripts.ECS.Component.Base;
 
 namespace Game.Scripts.ECS.Chunks
 {
@@ -7,11 +7,21 @@ namespace Game.Scripts.ECS.Chunks
     {
         public readonly int Value;
         
+        #region  Predefined Archetypes
+        
+        // Single component archetypes
+        
         public static readonly Archetype Invalid = new (0);
         public static readonly Archetype Move = new ((int)ComponentType.Position);
         public static readonly Archetype Rotate = new ((int)ComponentType.Rotation);
         public static readonly Archetype Scale = new ((int)ComponentType.Scale);
+        public static readonly Archetype Render = new ((int)ComponentType.Render);
         
+        // Multi component archetypes
+        public static readonly Archetype TRS = new ((int)ComponentType.Position | (int)ComponentType.Rotation | (int)ComponentType.Scale);
+        
+        
+        #endregion
         
         public Archetype(int value)
         {

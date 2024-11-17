@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Scripts.ECS.Component;
+using Game.Scripts.ECS.Component.Base;
 
 namespace Game.Scripts.ECS.Utility
 {
