@@ -6,12 +6,12 @@ namespace Game.Scripts.ECS.Utility
     {
         public static bool HasSameArchetypeWith(this Entity entity, Entity other)
         {
-            return entity.Archetype.Equals(other.Archetype);
+            return entity.Data.Archetype.Equals(other.Data.Archetype);
         }
 
         public static bool HasComponent(this Entity entity, ComponentType componentType)
         {
-            return (entity.Archetype.Value & (int)componentType) != 0;
+            return (entity.Data.Archetype.Value & (int)componentType) != 0;
         }
     }
 }

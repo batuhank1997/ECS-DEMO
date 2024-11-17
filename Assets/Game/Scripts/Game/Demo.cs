@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Scripts.ECS.Core;
+﻿using Game.Scripts.ECS.Core;
 using Game.Scripts.ECS.Core.Managers;
 using Game.Scripts.ECS.System;
 using Unity.Mathematics;

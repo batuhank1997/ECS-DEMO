@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Game.Scripts.ECS.Core.Managers
 {
     //TODO :::: BREAK INTO CHUNK MANAGER AND ENTITY MANAGER
     public class ECSManager
     {
-        private int _nextEntityId = 0;
         private readonly Dictionary<Archetype, List<Chunk>> _chunkListsByArchetype = new ();
-        
+        private readonly ConcurrentDictionary<EntityId, Entity> _entities = new ();
+
         //TODO :::: MOVE TO ENTITY FACTORY
         public Entity CreateEntity(params IComponent[] componentTypes)
         {
-            var entity = new Entity(new EntityId(_nextEntityId++), componentTypes);
+            var entity = new Entity(componentTypes);
             AddToBelongingChunk(entity);
+            _entities.TryAdd(entity.Data.Id, entity);
             
             return entity;
         }
@@ -22,17 +24,22 @@ namespace Game.Scripts.ECS.Core.Managers
             return _chunkListsByArchetype[archetype];
         }
 
+        public Entity GetEntityById(EntityId id)
+        {
+            return _entities.GetValueOrDefault(id);
+        }
+
         private void AddToBelongingChunk(Entity entity)
         {
-            if (_chunkListsByArchetype.TryGetValue(entity.Archetype, out var chunkList))
+            if (_chunkListsByArchetype.TryGetValue(entity.Data.Archetype, out var chunkList))
             {
                 var lastChunk = chunkList[^1];
                 
                 if (!lastChunk.TryAddEntity(entity))
-                    CreateNewChunk(entity.Archetype).TryAddEntity(entity);    
+                    CreateNewChunk(entity.Data.Archetype).TryAddEntity(entity);    
             }
             else
-                CreateNewChunk(entity.Archetype).TryAddEntity(entity);
+                CreateNewChunk(entity.Data.Archetype).TryAddEntity(entity);
         }
 
         //TODO :::: MOVE TO CHUNK FACTORY

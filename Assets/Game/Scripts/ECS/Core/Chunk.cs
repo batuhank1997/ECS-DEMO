@@ -6,45 +6,41 @@ namespace Game.Scripts.ECS.Core
 {
     public readonly struct Chunk
     {
-        public readonly Archetype Archetype;
-        public readonly Dictionary<Type, Array> Components;
-        private readonly int _size;
+        public readonly ChunkData Data;
         
         public Chunk(Archetype archetype, int size = 16)
         {
-            Archetype = archetype;
-            _size = size;
-            Components = new Dictionary<Type, Array>();
+            Data = new ChunkData(archetype, new Dictionary<Type, Array>(), size);
             InitializeComponents();
         }
 
         private void InitializeComponents()
         {
-            var componentTypes = ArchetypeUtility.GetComponentTypesByArcheType(Archetype.Value);
+            var componentTypes = ArchetypeUtility.GetComponentTypesByArcheType(Data.Archetype.Value);
 
             foreach (var componentType in componentTypes)
             {
                 if (ChunkUtility.TryGetTypeObjectByComponentType(componentType, out var type))
-                    Components.Add(type, Array.CreateInstance(type, _size));
+                    Data.Components.Add(type, Array.CreateInstance(type, Data.Size));
             }
         }
 
         public bool TryAddEntity(Entity entity)
         {
-            var arr = Components[entity.Components[0].GetType()];
+            var arr = Data.Components[entity.Data.Components[0].GetType()];
             var lastElement = arr.GetValue(arr.Length - 1);
             
             if (lastElement != null)
                 return false;
 
-            foreach (var component in entity.Components)
+            foreach (var component in entity.Data.Components)
             {
                 var componentType = component.GetType();
                 
-                if (!Components.ContainsKey(componentType))
-                    Components.Add(componentType, Array.CreateInstance(componentType, _size));
+                if (!Data.Components.ContainsKey(componentType))
+                    Data.Components.Add(componentType, Array.CreateInstance(componentType, Data.Size));
                
-                Components[componentType].SetValue(component, entity.Id.Value % _size);
+                Data.Components[componentType].SetValue(component, entity.Data.Id.Value % Data.Size);
             }
             
             return true;
@@ -54,7 +50,7 @@ namespace Game.Scripts.ECS.Core
         {
             var entityComponents = new List<IComponent>();
             
-            foreach (var component in Components)
+            foreach (var component in Data.Components)
                 entityComponents.Add((IComponent)component.Value.GetValue(entityIndex));
             
             return entityComponents;
@@ -62,7 +58,7 @@ namespace Game.Scripts.ECS.Core
 
         public T[] GetComponentsByType<T>() where T : IComponent
         {
-            return Components[typeof(T)] as T[];
+            return Data.Components[typeof(T)] as T[];
         }
     }
 }
