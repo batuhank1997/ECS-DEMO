@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Scripts.ECS.Utility;
-using UnityEditor.Rendering;
 
-namespace Game.Scripts.ECS.Core.Managers
+namespace Game.Scripts.ECS.Core
 {
     public readonly struct Chunk
     {
@@ -15,12 +14,27 @@ namespace Game.Scripts.ECS.Core.Managers
         {
             Archetype = archetype;
             _size = size;
-            Components = new Dictionary<Type, Array>(ChunkUtility.CountBits(archetype.Value));
+            Components = new Dictionary<Type, Array>();
+            InitializeComponents();
+        }
+
+        private void InitializeComponents()
+        {
+            var componentTypes = ArchetypeUtility.GetComponentTypesByArcheType(Archetype.Value);
+
+            foreach (var componentType in componentTypes)
+            {
+                if (ChunkUtility.TryGetTypeObjectByComponentType(componentType, out var type))
+                    Components.Add(type, Array.CreateInstance(type, _size));
+            }
         }
 
         public bool TryAddEntity(Entity entity)
         {
-            if (!Components.TryGetValue(entity.Components[0].GetType(), out var arr))
+            var arr = Components[entity.Components[0].GetType()];
+            var lastElement = arr.GetValue(arr.Length - 1);
+            
+            if (lastElement != null)
                 return false;
 
             foreach (var component in entity.Components)
@@ -29,8 +43,8 @@ namespace Game.Scripts.ECS.Core.Managers
                 
                 if (!Components.ContainsKey(componentType))
                     Components.Add(componentType, Array.CreateInstance(componentType, _size));
-                
-                Components[componentType].SetValue(component, entity.Id.Value);
+               
+                Components[componentType].SetValue(component, entity.Id.Value % _size);
             }
             
             return true;
@@ -44,6 +58,11 @@ namespace Game.Scripts.ECS.Core.Managers
                 entityComponents.Add((IComponent)component.Value.GetValue(entityIndex));
             
             return entityComponents;
+        }
+
+        public T[] GetComponentsByType<T>() where T : IComponent
+        {
+            return Components[typeof(T)] as T[];
         }
     }
 }
