@@ -12,10 +12,10 @@ namespace Game.Scripts.ECS.Chunks
         // Single component archetypes
         
         public static readonly Archetype Invalid = new (0);
-        public static readonly Archetype Move = new ((int)ComponentType.Position);
+        public static readonly Archetype Position = new ((int)ComponentType.Position);
         public static readonly Archetype Rotate = new ((int)ComponentType.Rotation);
         public static readonly Archetype Scale = new ((int)ComponentType.Scale);
-        public static readonly Archetype Render = new ((int)ComponentType.Render);
+        public static readonly Archetype Render = new ((int)ComponentType.Render | Position.Value | Rotate.Value | Scale.Value);
         
         // Multi component archetypes
         

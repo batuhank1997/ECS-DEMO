@@ -47,8 +47,8 @@ namespace Game.Scripts.Game
                 var scaleComponent = new ScaleComponent(0.9f);
                 
                 var renderComponent = new RenderComponent(new RenderData(_mesh, _material, Matrix4x4.TRS(posComponent.Value, rotComponent.Value, scaleComponent.Value)));
-                
-                _ecsManager.CreateEntity(renderComponent);
+
+                _ecsManager.CreateEntity(renderComponent, posComponent, rotComponent, scaleComponent);
             }
         }
 
