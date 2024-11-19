@@ -1,5 +1,5 @@
-using System.Numerics;
 using Game.Scripts.ECS.Component.Base;
+using UnityEngine;
 
 namespace Game.Scripts.ECS.Component
 {

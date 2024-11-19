@@ -27,6 +27,8 @@ namespace Game.Scripts.ECS.System
                     0,
                     positionComponent.RenderData.Material,
                     matrices);
+                
+                // Graphics.DrawMesh(positionComponent.RenderData.Mesh, positionComponent.RenderData.Matrix4x4, positionComponent.RenderData.Material, 0);
             }
         }
     }

@@ -18,7 +18,6 @@ namespace Game.Scripts.ECS.Chunks
         public static readonly Archetype Render = new ((int)ComponentType.Render);
         
         // Multi component archetypes
-        public static readonly Archetype TRS = new ((int)ComponentType.Position | (int)ComponentType.Rotation | (int)ComponentType.Scale);
         
         
         #endregion

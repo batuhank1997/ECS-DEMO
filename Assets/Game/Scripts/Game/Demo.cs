@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Scripts.ECS.Chunks;
+﻿using Game.Scripts.ECS.Chunks;
 using Game.Scripts.ECS.Component;
 using Game.Scripts.ECS.Core.Managers;
 using Game.Scripts.ECS.System;
@@ -16,21 +15,38 @@ namespace Game.Scripts.Game
         private ECSManager _ecsManager;
         private MoveSystem _moveSystem;
         private RenderSystem _renderSystem;
+
+        private MaterialPropertyBlock _materialPropertyBlock;
         
         private void Start()
         {
             _ecsManager = new ECSManager();
             _moveSystem = new MoveSystem();
             _renderSystem = new RenderSystem();
+            _materialPropertyBlock = new MaterialPropertyBlock();
+            
+            var posComponentArray = new PositionComponent[1024];
 
+            var counter = 0;
+            
+            for (var i = 0; i < 32; i++)
+            {
+                for (var j = 0; j < 32; j++)
+                {
+                    var posComponent = new PositionComponent(new float3(i , j, 0));
+                    posComponentArray[counter] = posComponent;
+                    counter++;
+                }
+            }
+            
+            
             for (var i = 0; i < 1024; i++)
             {
-                var matrix = new Matrix4x4();
+                var posComponent = posComponentArray[i];
+                var rotComponent = new RotationComponent(Quaternion.identity);
+                var scaleComponent = new ScaleComponent(0.9f);
                 
-                matrix.SetTRS(new Vector3(i, i, i), Quaternion.identity, Vector3.one);
-                
-                // var posComponent = new PositionComponent(new float3(i, 0, 0));
-                var renderComponent = new RenderComponent(new RenderData(_mesh, _material, matrix));
+                var renderComponent = new RenderComponent(new RenderData(_mesh, _material, Matrix4x4.TRS(posComponent.Value, rotComponent.Value, scaleComponent.Value)));
                 
                 _ecsManager.CreateEntity(renderComponent);
             }
@@ -43,7 +59,7 @@ namespace Game.Scripts.Game
 
         private void UpdateSystems(float deltaTime)
         {
-            _moveSystem.Update(_ecsManager.GetChunksByArchetype(Archetype.Move), deltaTime);
+            // _moveSystem.Update(_ecsManager.GetChunksByArchetype(Archetype.Move), deltaTime);
             _renderSystem.Update(_ecsManager.GetChunksByArchetype(Archetype.Render), deltaTime);
         }
     }
