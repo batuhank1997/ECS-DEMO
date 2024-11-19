@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Game.Scripts.ECS.Chunks;
 using Game.Scripts.ECS.Component;
+using Game.Scripts.ECS.Component.Base;
 using Game.Scripts.ECS.Entities;
+using Game.Scripts.ECS.Utility;
 
 namespace Game.Scripts.ECS.Core.Managers
 {
@@ -15,18 +17,34 @@ namespace Game.Scripts.ECS.Core.Managers
         private readonly List<Chunk> _emptyChunkList = new ();
 
         //TODO :::: MOVE TO ENTITY FACTORY
-        public Entity CreateEntity(params IComponent[] componentTypes)
+        public void CreateEntity(params IComponent[] components)
         {
-            var entity = new Entity(componentTypes);
-            AddToBelongingChunk(entity);
-            _entities.TryAdd(entity.Data.Id, entity);
+            var entity = new Entity(components);
             
-            return entity;
+            AddToBelongingChunk(entity);
+            
+            _entities.TryAdd(entity.Data.Id, entity);
         }
         
         public List<Chunk> GetChunksByArchetype(Archetype archetype)
         {
             return _chunkListsByArchetype.GetValueOrDefault(archetype, _emptyChunkList);
+        }
+        
+        public List<Chunk> GetChunksWithComponent(ComponentType componentType)
+        {
+            var chunks = new List<Chunk>();
+
+            foreach (var chunkList in _chunkListsByArchetype.Values)
+            {
+                foreach (var chunk in chunkList)
+                {
+                    if (ArchetypeUtility.IsArchetypeHasComponent(chunk.Data.Archetype, componentType))
+                        chunks.Add(chunk);
+                }
+            }
+
+            return chunks;
         }
 
         public Entity GetEntityById(EntityId id)
@@ -38,13 +56,13 @@ namespace Game.Scripts.ECS.Core.Managers
         {
             if (_chunkListsByArchetype.TryGetValue(entity.Data.Archetype, out var chunkList))
             {
-                var lastChunk = chunkList[^1];
-                
-                if (!lastChunk.TryAddEntity(entity))
-                    CreateNewChunk(entity.Data.Archetype).TryAddEntity(entity);    
+                if (!chunkList[^1].IsFull())
+                    chunkList[^1].AddEntity(entity);
+                else
+                    CreateNewChunk(entity.Data.Archetype).AddEntity(entity);    
             }
             else
-                CreateNewChunk(entity.Data.Archetype).TryAddEntity(entity);
+                CreateNewChunk(entity.Data.Archetype).AddEntity(entity);
         }
 
         //TODO :::: MOVE TO CHUNK FACTORY

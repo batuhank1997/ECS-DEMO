@@ -15,8 +15,8 @@ namespace Game.Scripts.ECS.System
         
         private void Execute(PositionComponent[] positionComponents, float deltaTime)
         {
-            foreach (var positionComponent in positionComponents)
-                positionComponent.Value += new float3(1, 0, 0) * deltaTime;
+            for (var i = 0; i < positionComponents.Length; i++)
+                positionComponents[i] = new PositionComponent(positionComponents[i].Value + new float3(0, 0, 1) * deltaTime);
         }
     }
 }

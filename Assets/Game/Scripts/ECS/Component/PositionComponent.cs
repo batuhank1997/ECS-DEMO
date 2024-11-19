@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace Game.Scripts.ECS.Component
 {
-    public class PositionComponent : IComponent
+    public struct PositionComponent : IComponent
     {
         public ComponentType Type => ComponentType.Position;
         

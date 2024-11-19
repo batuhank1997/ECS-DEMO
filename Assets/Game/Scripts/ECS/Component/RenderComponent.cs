@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.ECS.Component
 {
-    public class RenderComponent : IComponent
+    public struct RenderComponent : IComponent
     {
         public ComponentType Type => ComponentType.Render;
         

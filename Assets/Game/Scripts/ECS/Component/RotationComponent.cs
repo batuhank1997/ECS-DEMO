@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.ECS.Component
 {
-    public class RotationComponent : IComponent
+    public struct RotationComponent : IComponent
     {
         public ComponentType Type => ComponentType.Rotation;
         

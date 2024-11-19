@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Scripts.ECS.Chunks;
 using Game.Scripts.ECS.Component.Base;
 
 namespace Game.Scripts.ECS.Utility
@@ -18,6 +19,11 @@ namespace Game.Scripts.ECS.Utility
             }
 
             return componentTypes;
+        }
+        
+        public static bool IsArchetypeHasComponent(Archetype archetype, ComponentType componentType)
+        {
+            return (archetype.Value & new Archetype((int)componentType).Value) != 0;
         }
     }
 }

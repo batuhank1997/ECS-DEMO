@@ -1,5 +1,6 @@
 ﻿using Game.Scripts.ECS.Chunks;
 using Game.Scripts.ECS.Component;
+using Game.Scripts.ECS.Component.Base;
 using Game.Scripts.ECS.Core.Managers;
 using Game.Scripts.ECS.System;
 using Unity.Mathematics;
@@ -15,6 +16,7 @@ namespace Game.Scripts.Game
         private ECSManager _ecsManager;
         private MoveSystem _moveSystem;
         private RenderSystem _renderSystem;
+        private RotateSystem _rotateSystem;
 
         private MaterialPropertyBlock _materialPropertyBlock;
         
@@ -23,6 +25,7 @@ namespace Game.Scripts.Game
             _ecsManager = new ECSManager();
             _moveSystem = new MoveSystem();
             _renderSystem = new RenderSystem();
+            _rotateSystem = new RotateSystem();
             _materialPropertyBlock = new MaterialPropertyBlock();
             
             var posComponentArray = new PositionComponent[1024];
@@ -59,7 +62,7 @@ namespace Game.Scripts.Game
 
         private void UpdateSystems(float deltaTime)
         {
-            // _moveSystem.Update(_ecsManager.GetChunksByArchetype(Archetype.Move), deltaTime);
+            _rotateSystem.Update(_ecsManager.GetChunksWithComponent(ComponentType.Rotation), deltaTime);
             _renderSystem.Update(_ecsManager.GetChunksByArchetype(Archetype.Render), deltaTime);
         }
     }

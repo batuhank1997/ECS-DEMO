@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace Game.Scripts.ECS.Component
 {
-    public class ScaleComponent : IComponent
+    public struct ScaleComponent : IComponent
     {
         public ComponentType Type => ComponentType.Scale;
         

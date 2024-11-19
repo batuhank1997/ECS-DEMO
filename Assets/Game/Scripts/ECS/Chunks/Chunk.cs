@@ -6,12 +6,15 @@ using Game.Scripts.ECS.Utility;
 
 namespace Game.Scripts.ECS.Chunks
 {
-    public readonly struct Chunk
+    public class Chunk
     {
         public readonly ChunkData Data;
+
+        private int _emptySpace = 0;
         
         public Chunk(Archetype archetype, int size = 16)
         {
+            _emptySpace = size;
             Data = new ChunkData(archetype, new Dictionary<Type, Array>(), size);
             InitializeComponents();
         }
@@ -26,15 +29,9 @@ namespace Game.Scripts.ECS.Chunks
                     Data.Components.Add(type, Array.CreateInstance(type, Data.Size));
             }
         }
-
-        public bool TryAddEntity(Entity entity)
+        
+        public void AddEntity(Entity entity)
         {
-            var arr = Data.Components[entity.Data.Components[0].GetType()];
-            var lastElement = arr.GetValue(arr.Length - 1);
-            
-            if (lastElement != null)
-                return false;
-
             foreach (var component in entity.Data.Components)
             {
                 var componentType = component.GetType();
@@ -45,17 +42,12 @@ namespace Game.Scripts.ECS.Chunks
                 Data.Components[componentType].SetValue(component, entity.Data.Id.Value % Data.Size);
             }
             
-            return true;
+            _emptySpace--;
         }
         
-        public List<IComponent> GetEntityComponentsByIndex(int entityIndex)
+        public bool IsFull()
         {
-            var entityComponents = new List<IComponent>();
-            
-            foreach (var component in Data.Components)
-                entityComponents.Add((IComponent)component.Value.GetValue(entityIndex));
-            
-            return entityComponents;
+            return _emptySpace == 0;
         }
 
         public T[] GetComponentsByType<T>() where T : IComponent
