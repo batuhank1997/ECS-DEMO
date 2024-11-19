@@ -18,16 +18,22 @@ namespace Game.Scripts.Game
         private RenderSystem _renderSystem;
         private RotateSystem _rotateSystem;
 
-        private MaterialPropertyBlock _materialPropertyBlock;
-        
         private void Start()
+        {
+            InitializeSystems();
+            CreateEntities();
+        }
+
+        private void InitializeSystems()
         {
             _ecsManager = new ECSManager();
             _moveSystem = new MoveSystem();
             _renderSystem = new RenderSystem();
             _rotateSystem = new RotateSystem();
-            _materialPropertyBlock = new MaterialPropertyBlock();
-            
+        }
+
+        private void CreateEntities()
+        {
             var posComponentArray = new PositionComponent[1024];
 
             var counter = 0;
@@ -41,7 +47,6 @@ namespace Game.Scripts.Game
                     counter++;
                 }
             }
-            
             
             for (var i = 0; i < 1024; i++)
             {

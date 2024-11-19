@@ -9,12 +9,16 @@ namespace Game.Scripts.ECS.System
     {
         public void Update(List<Chunk> chunkList, float deltaTime)
         {
-            foreach (var chunk in chunkList)
+            for (var i = 0; i < chunkList.Count; i++)
+            {
+                var chunk = chunkList[i];
+                
                 Execute(
                     chunk.GetComponentsByType<RenderComponent>(), 
                     chunk.GetComponentsByType<PositionComponent>(),
                     chunk.GetComponentsByType<RotationComponent>(), 
                     chunk.GetComponentsByType<ScaleComponent>(), deltaTime);
+            }
         }
         
         private void Execute(RenderComponent[] renderComponents, PositionComponent[] positionComponents, RotationComponent[] rotationComponents, ScaleComponent[] scaleComponents, float deltaTime)

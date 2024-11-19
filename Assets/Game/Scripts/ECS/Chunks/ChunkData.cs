@@ -9,8 +9,6 @@ namespace Game.Scripts.ECS.Chunks
         public readonly Dictionary<Type, Array> Components;
         public readonly int Size;
         
-        public static readonly ChunkData Invalid = new ChunkData(new Archetype(0), new Dictionary<Type, Array>(), 0);
-
         public ChunkData(Archetype archetype, Dictionary<Type, Array> components, int size)
         {
             Archetype = archetype;
